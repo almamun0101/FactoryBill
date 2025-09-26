@@ -8,7 +8,7 @@ const Home = () => {
   return (
     <div>
         <div className="max-w-5xl mx-auto">
-      
+        
         <Electricity/>
         <FloatingAddButton/>
 
