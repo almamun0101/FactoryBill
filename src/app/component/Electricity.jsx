@@ -25,7 +25,7 @@ const Electricity = () => {
             <div className="p-3 bg-blue-600 rounded-full">
               <Zap className="h-8 w-8 text-white" />
             </div>
-            <h1 className="text-4xl font-bold text-gray-900">Electricity Dashboard</h1>
+            <h1 className="text-4xl font-bold text-gray-900">Factory Dashboard</h1>
           </div>
           <p className="text-gray-600 text-lg">Monitor and manage your electricity consumption</p>
         </div>
