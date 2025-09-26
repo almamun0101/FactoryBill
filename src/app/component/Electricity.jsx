@@ -1,25 +1,45 @@
 import React from "react";
 
 const Electricity = () => {
+    let percentageDecrease = 10;
+  const data = [
+    { date: "01 / 10 / 2025", amount: "50000", place: "Office" },
+    { date: "01 / 10 / 2025", amount: "50000", place: "Local" },
+  ];
   return (
-    <div className="flex justify-between items-center gap-5 p-2 ">
-      <div className="bg-white w-full text-black p-5 py-10 text-left rounded-2xl ">
-        <h2 className="text-lg font-bold text-center pb-5 ">
-          Electricity Month : 50000{" "}
+    <div className="flex justify-center items-center px-4">
+      <div className="w-full max-w-2xl bg-white text-black rounded-2xl shadow-md p-6">
+        {/* Header */}
+        <h2 className="text-2xl font-bold text-center pb-6 ">
+          Electricity Month : <span className="text-green-600">50,000</span>
         </h2>
-        <div className="flex gap-10">
-          <h3 className=""> Date</h3>
-          <h3 className=""> Amount </h3>
+
+        {/* Table */}
+        <div className="mt-2">
+          <div className="grid grid-cols-4 text-center font-semibold text-gray-700 border-b border-gray-300 pb-2">
+            <span>Date</span>
+            <span>Amount</span>
+            <span>Place</span>
+            <span>Money</span>
+          </div>
+
+          {data.map((item, index) => {
+          let newValue = item.amount * (1 - (percentageDecrease / 100));
+
+          return(
+            <div
+              key={index}
+              className="grid grid-cols-4 text-center py-1 border-b last:border-none border-gray-200 hover:bg-gray-50 transition"
+            >
+              <span>{item.date}</span>
+              <span className="text-green-600 font-medium">{item.amount}</span>
+              <span>{item.place}</span>
+              <span>
+                {item.place === "Office" ? item.amount : newValue}
+              </span>
+            </div>
+          )})}
         </div>
-        <div className="flex gap-10">
-          <h3 className=""> 01 / 10 / 2025</h3>
-          <h3 className=""> 50,000</h3>
-        </div>
-        <div className="flex gap-10">
-          <h3 className=""> 01 / 10 / 2025</h3>
-          <h3 className=""> 50,000</h3>
-        </div>
-       
       </div>
     </div>
   );

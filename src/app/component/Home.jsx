@@ -2,6 +2,7 @@ import React from 'react'
 import Navbar from './Navbar'
 import Machines from './Machines'
 import Electricity from './Electricity'
+import FloatingAddButton from './FloatingAddButton'
 
 const Home = () => {
   return (
@@ -9,6 +10,7 @@ const Home = () => {
         <Navbar/>
         <Machines/>
         <Electricity/>
+        <FloatingAddButton/>
     </div>
   )
 }
