@@ -8,7 +8,7 @@ const Electricity = () => {
   ];
   return (
     <div className="flex justify-center items-center px-4">
-      <div className="w-full max-w-2xl bg-white text-black rounded-2xl shadow-md p-6">
+      <div className="w-full max-w-5xl bg-white text-black rounded-2xl shadow-md p-6">
         {/* Header */}
         <h2 className="text-2xl font-bold text-center pb-6 ">
           Electricity Month : <span className="text-green-600">50,000</span>
