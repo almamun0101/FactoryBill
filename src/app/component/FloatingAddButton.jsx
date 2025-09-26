@@ -8,7 +8,7 @@ export default function FloatingAddButton() {
 
   return (
     <button
-      onClick={() => router.push("/adddata")}
+      onClick={() => router.push("/newdata")}
       className="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700
                  text-white p-4 rounded-full shadow-xl transition"
     >
