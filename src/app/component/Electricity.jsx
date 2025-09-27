@@ -8,6 +8,11 @@ import {
   Activity,
   Settings,
 } from "lucide-react";
+
+import { AiFillShop } from "react-icons/ai";
+import { PiBuildingOfficeBold } from "react-icons/pi";
+
+
 import { useRouter } from "next/navigation";
 
 const Electricity = () => {
@@ -22,8 +27,8 @@ const Electricity = () => {
   const totalElectricity = 50000;
 
   const data = [
-    { date: "01 / 10 / 2025", amount: "50000", place: "Office" },
-    { date: "01 / 10 / 2025", amount: "50000", place: "Local" },
+    { date: "01 Sep 25", amount: "50000", place: "Office" },
+    { date: "01 Sep 25", amount: "50000", place: "Local" },
   ];
 
   return (
@@ -142,14 +147,10 @@ const Electricity = () => {
                     </span>
 
                     <span
-                      className={`font-semibold px-3 py-1 rounded-full text-sm ${
-                        isOffice
-                          ? "bg-blue-100 text-blue-800"
-                          : "bg-purple-100 text-purple-800"
-                      }`}
+                      className={`font-semibold flex justify-center items-center rounded-full text-sm `}
                     >
-                      {item.place}
-                    </span>
+                      {isOffice ? <PiBuildingOfficeBold size={30}/> : <AiFillShop size={30}/>}
+                 </span>
 
                     <div className="flex items-center gap-2">
                       <span className="text-lg font-bold text-gray-900">
