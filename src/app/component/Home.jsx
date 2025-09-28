@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Home,
   Zap,
@@ -15,6 +15,19 @@ import { useRouter } from "next/navigation";
 
 const HomePage = () => {
   const router = useRouter();
+  const [currentDate, setCurrentDate] = useState("");
+
+  // 3. Use an effect to set the date on the client side
+  useEffect(() => {
+    setCurrentDate(
+      new Date().toLocaleDateString("en-GB", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    );
+  }, []);
 
   // Navigation items
   const navItems = [
@@ -92,18 +105,18 @@ const HomePage = () => {
         <header className="text-center">
           <div className="mt-2 flex items-center justify-center gap-2 text-sm text-gray-500">
             <Calendar className="h-4 w-4" />
-            <span>Today, {new Date().toLocaleDateString('en-GB', { 
-              weekday: 'long', 
-              year: 'numeric', 
-              month: 'long', 
-              day: 'numeric' 
-            })}</span>
+            <span>
+              Today,{" "}
+             <span>Today, {currentDate}</span>
+            </span>
           </div>
         </header>
 
         {/* Quick Stats Grid */}
         <section>
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Quick Overview</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">
+            Quick Overview
+          </h2>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {quickStats.map((stat, index) => {
               const Icon = stat.icon;
@@ -120,8 +133,16 @@ const HomePage = () => {
                   className="bg-white rounded-2xl shadow-md p-6 border border-gray-100 hover:shadow-lg transition-all duration-300"
                 >
                   <div className="flex items-center justify-between mb-4">
-                    <div className={`p-3 rounded-full ${colorClasses[stat.color].split(' ')[2]}`}>
-                      <Icon className={`h-6 w-6 ${colorClasses[stat.color].split(' ')[1]}`} />
+                    <div
+                      className={`p-3 rounded-full ${
+                        colorClasses[stat.color].split(" ")[2]
+                      }`}
+                    >
+                      <Icon
+                        className={`h-6 w-6 ${
+                          colorClasses[stat.color].split(" ")[1]
+                        }`}
+                      />
                     </div>
                     <span
                       className={`text-sm font-medium px-2 py-1 rounded-full ${
@@ -147,7 +168,9 @@ const HomePage = () => {
 
         {/* Quick Actions */}
         <section>
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Quick Actions</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">
+            Quick Actions
+          </h2>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {navItems.slice(1).map((item, index) => {
               const Icon = item.icon;
@@ -173,7 +196,9 @@ const HomePage = () => {
 
         {/* Recent Activities */}
         <section>
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Recent Activities</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">
+            Recent Activities
+          </h2>
           <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
             <div className="p-6">
               <div className="space-y-4">
@@ -183,7 +208,9 @@ const HomePage = () => {
                     className="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors"
                   >
                     <div>
-                      <p className="font-medium text-gray-900">{activity.action}</p>
+                      <p className="font-medium text-gray-900">
+                        {activity.action}
+                      </p>
                       <p className="text-sm text-gray-500">{activity.time}</p>
                     </div>
                     <span
@@ -245,13 +272,15 @@ const HomePage = () => {
                     : "text-gray-600 hover:text-blue-600 hover:bg-gray-50"
                 }`}
               >
-                <Icon 
-                  size={20} 
-                  className={item.active ? "text-blue-600" : "text-gray-600"} 
+                <Icon
+                  size={20}
+                  className={item.active ? "text-blue-600" : "text-gray-600"}
                 />
-                <span className={`text-xs font-medium ${
-                  item.active ? "text-blue-600" : "text-gray-600"
-                }`}>
+                <span
+                  className={`text-xs font-medium ${
+                    item.active ? "text-blue-600" : "text-gray-600"
+                  }`}
+                >
                   {item.label}
                 </span>
               </button>
