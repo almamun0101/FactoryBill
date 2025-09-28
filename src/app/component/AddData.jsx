@@ -13,7 +13,7 @@ import {
   TrendingUp
 } from "lucide-react";
 
-export default function AddDataPage() {
+export default function AddDataPage(DataOf) {
   const today = new Date().toISOString().split("T")[0];
 
   const [ebill, setEbill] = useState({
@@ -56,12 +56,8 @@ export default function AddDataPage() {
         
         {/* Header */}
         <div className="text-center">
-          <div className="inline-flex items-center gap-3 bg-gradient-to-r from-green-600 to-emerald-600 
-                          text-white px-8 py-4 rounded-3xl shadow-lg mb-6">
-            <Plus className="h-8 w-8" />
-            <h1 className="text-3xl font-bold">Add New Data</h1>
-          </div>
-          <p className="text-gray-600 text-lg">Enter electricity bills and machine readings</p>
+        
+          <p className="text-gray-600 text-lg">Enter electricity bills</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
