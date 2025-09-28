@@ -86,22 +86,11 @@ const HomePage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 px-4 py-8 pb-24">
-      <div className="max-w-5xl mx-auto space-y-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 px-4 py-2 pb-24">
+      <div className="max-w-5xl mx-auto space-y-5">
         {/* Header Section */}
-        <header className="text-center pt-8">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="p-3 bg-blue-600 rounded-full shadow-md">
-              <Home className="h-8 w-8 text-white" />
-            </div>
-            <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight">
-              Dashboard Home
-            </h1>
-          </div>
-          <p className="text-gray-600 text-lg">
-            Welcome to your factory management system
-          </p>
-          <div className="mt-4 flex items-center justify-center gap-2 text-sm text-gray-500">
+        <header className="text-center">
+          <div className="mt-2 flex items-center justify-center gap-2 text-sm text-gray-500">
             <Calendar className="h-4 w-4" />
             <span>Today, {new Date().toLocaleDateString('en-GB', { 
               weekday: 'long', 

@@ -3,7 +3,7 @@ import './globals.css';
 
 
 export const metadata = {
-  title: 'Fixed Bottom Nav Example',
+  title: 'Factory Mentaince',
 };
 
 export default function RootLayout({ children }) {
