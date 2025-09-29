@@ -1,12 +1,12 @@
 "use client"
 import React, { useState } from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
-import { Calendar, DollarSign, Zap, Settings, Eye, TrendingUp, TrendingDown, ChevronRight } from 'lucide-react';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie } from 'recharts';
+import { Calendar, Zap, Settings, Eye, TrendingUp, TrendingDown, ChevronRight } from 'lucide-react';
 
 const Dashboard = () => {
   const [selectedMonth, setSelectedMonth] = useState(null);
 
-  // Sample data - replace with your actual data
+  // Sample data
   const billsData = {
     '2024-01': {
       electricity: { amount: 1250, units: 850, rate: 1.47 },
@@ -71,16 +71,16 @@ const Dashboard = () => {
     return { machineCost, otherCosts, total };
   };
 
-  const getPercentageChange = (current, previous)=> {
+  const getPercentageChange = (current, previous) => {
     if (!previous) return 0;
     return ((current - previous) / previous * 100).toFixed(1);
   };
 
-  const MonthCard = ({ month, data, index, totalMonths }) => {
+  const MonthCard = ({ month, data }) => {
     const { machineCost, otherCosts, total } = getMonthlyTotals(data);
     const monthName = new Date(month).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
     const shortMonth = new Date(month).toLocaleDateString('en-US', { month: 'short' });
-    
+
     // Calculate change from previous month
     const months = Object.keys(billsData).sort();
     const currentIndex = months.indexOf(month);
@@ -88,7 +88,7 @@ const Dashboard = () => {
     const prevTotal = previousMonth ? getMonthlyTotals(billsData[previousMonth]).total : 0;
 
     return (
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow w-[350px]">
         {/* Month Header */}
         <div className="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-indigo-50">
           <div className="flex items-center justify-between">
@@ -109,7 +109,6 @@ const Dashboard = () => {
 
         {/* Summary Section */}
         <div className="p-6">
-          {/* Total Cost */}
           <div className="mb-6 text-center">
             <p className="text-sm text-gray-600 mb-2">Total Monthly Cost</p>
             <p className="text-3xl font-bold text-gray-900">${total.toLocaleString()}</p>
@@ -174,7 +173,7 @@ const Dashboard = () => {
         {selectedMonth === month && (
           <div className="border-t border-gray-200 bg-gray-50">
             <div className="p-6">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 gap-6">
                 {/* Machine Details */}
                 <div>
                   <h4 className="font-semibold text-gray-900 mb-3">Machine Breakdown</h4>
@@ -212,8 +211,7 @@ const Dashboard = () => {
                           outerRadius={70}
                           paddingAngle={5}
                           dataKey="value"
-                        >
-                        </Pie>
+                        />
                         <Tooltip formatter={(value) => `$${value}`} />
                       </PieChart>
                     </ResponsiveContainer>
@@ -236,27 +234,21 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen  bg-gray-50 p-6">
-      <div className="max-w-3xl mx-auto">
+    <div className="min-h-screen bg-gray-50 p-6">
+      <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Monthly Bills Dashboard</h1>
           <p className="text-gray-600">Track your electricity, machine costs, and expenses by month</p>
         </div>
 
-        {/* Monthly Cards Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+        {/* Monthly Cards Row */}
+        <div className="grid md:grid-cols-3 items-center justify-center gap-20">
           {Object.entries(billsData)
-            .sort(([a], [b]) => new Date(b) - new Date(a)) // Sort by newest first
-            .map(([month, data], index) => (
-            <MonthCard
-              key={month}
-              month={month}
-              data={data}
-              index={index}
-              totalMonths={Object.keys(billsData).length}
-            />
-          ))}
+            .sort(([a], [b]) => new Date(b) - new Date(a))
+            .map(([month, data]) => (
+              <MonthCard key={month} month={month} data={data} />
+            ))}
         </div>
 
         {/* Overall Summary */}
