@@ -19,30 +19,27 @@ import {
   Store,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { getDatabase, push, ref, set } from "firebase/database";
+import { getAuth } from "firebase/auth";
+import firebaseConfig from "../firebase.config";
+import { useDataFetch } from "../useDataFetch";
 
 const Page = () => {
   const router = useRouter();
-
+  const db = getDatabase();
+  const ebillFetch = useDataFetch("electricity");
   const [currentDate, setCurrentDate] = useState("");
   const [add, setAdd] = useState(false);
-
   const today = new Date().toISOString().split("T")[0];
-
   const [ebill, setEbill] = useState({
-    date: today,
-    amount: "",
+    date: today || null,
+    amount: 0,
     location: "office",
     comment: "",
   });
 
   const percentageDecrease = 10;
 
-  const data = [
-    { date: "01 Sep 25", amount: 50000, place: "Office" },
-    { date: "01 Sep 25", amount: 50000, place: "Local" },
-    { date: "15 Aug 25", amount: 45000, place: "Office" },
-    { date: "10 Aug 25", amount: 38000, place: "Local" },
-  ];
 
   useEffect(() => {
     setCurrentDate(
@@ -55,22 +52,30 @@ const Page = () => {
     );
   }, []);
 
-  const handleEbillSubmit = (e) => {
+  const handleEbillSubmit = async (e) => {
     e.preventDefault();
-    console.log("Electricity:", ebill);
-    setAdd(false);
+    try {
+      const newRef = push(ref(db, "electricity")); // fixed spelling + correct usage
+      await set(newRef, {
+        ...ebill,
+        amount: Number(ebill.amount) || 0, // make sure it's a number, not string/undefined
+        comment: ebill.comment || "", // avoid undefined
+      });
+
+      console.log("Electricity entry saved:", ebill);
+      setAdd(false);
+    } catch (err) {
+      console.error("Save error:", err);
+    }
   };
 
-  // Utility function to get final bill
-  const getFinalAmount = (item) =>
-    item.place === "Office"
-      ? item.amount
-      : Math.round(item.amount * (1 - percentageDecrease / 100));
+  // // Utility function to get final bill
+  // const getFinalAmount = (item) =>
+  //   item.place === "Local"
+  //     ? item.amount
+  //     : Math.round(item.amount * (1 - percentageDecrease / 100));
 
-  const totalAmount = data.reduce(
-    (sum, item) => sum + getFinalAmount(item),
-    0
-  );
+  // const totalAmount = ebillFetch.reduce((sum, item) => sum + getFinalAmount(item), 0);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 px-4 py-2 pb-24">
@@ -110,9 +115,7 @@ const Page = () => {
                 <input
                   type="date"
                   value={ebill.date}
-                  onChange={(e) =>
-                    setEbill({ ...ebill, date: e.target.value })
-                  }
+                  onChange={(e) => setEbill({ ...ebill, date: e.target.value })}
                   className="w-full border border-gray-300 p-3.5 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none"
                   required
                 />
@@ -213,9 +216,9 @@ const Page = () => {
               </div>
 
               <div className="space-y-2">
-                {data.map((item, index) => {
-                  const finalAmount = getFinalAmount(item);
-                  const isOffice = item.place === "Office";
+                {ebillFetch.map((item, index) => {
+                  // const finalAmount = getFinalAmount(item);
+                  const isOffice = item.place === "office";
 
                   return (
                     <div
@@ -243,7 +246,8 @@ const Page = () => {
 
                       <div className="flex items-center gap-2">
                         <span className="text-base font-bold text-green-600">
-                          ৳{finalAmount.toLocaleString()}
+                          {/* ৳{finalAmount.toLocaleString()} */}
+                            ৳{item.amount.toLocaleString()}
                         </span>
                         {!isOffice && (
                           <span className="text-xs bg-red-100 text-red-700 px-2 py-1 rounded-full font-semibold">
@@ -259,9 +263,9 @@ const Page = () => {
 
             {/* Mobile Cards */}
             <div className="p-6 md:hidden space-y-3">
-              {data.map((item, index) => {
-                const finalAmount = getFinalAmount(item);
-                const isOffice = item.place === "Office";
+              {ebillFetch.map((item, index) => {
+                // const finalAmount = getFinalAmount(item);
+                const isOffice = item.place === "office";
 
                 return (
                   <div
@@ -294,12 +298,11 @@ const Page = () => {
                         </p>
                       </div>
                       <div className="text-right">
-                        <p className="text-xs text-gray-500 mb-1">
-                          Final Cost
-                        </p>
+                        <p className="text-xs text-gray-500 mb-1">Final Cost</p>
                         <div className="flex items-center gap-2">
                           <p className="text-lg font-bold text-green-600">
-                            ৳{finalAmount.toLocaleString()}
+                            {/* ৳{finalAmount.toLocaleString()} */}
+                              ৳{item.amount.toLocaleString()}
                           </p>
                           {!isOffice && (
                             <span className="text-xs bg-red-100 text-red-700 px-2 py-1 rounded-full font-semibold">
@@ -329,7 +332,7 @@ const Page = () => {
                   </div>
                 </div>
                 <p className="text-2xl font-bold text-blue-600">
-                  ৳{totalAmount.toLocaleString()}
+                  {/* ৳{totalAmount.toLocaleString()} */}
                 </p>
               </div>
             </div>
