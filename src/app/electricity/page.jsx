@@ -31,7 +31,7 @@ const Page = () => {
     comment: "",
   });
 
-  const Localcharge = 10;
+  const Localcharge = 0.1;
 
   // Handle different return formats from useDataFetch
   const ebillFetch = Array.isArray(ebillData) ? ebillData : (ebillData?.data || []);
@@ -43,7 +43,7 @@ const Page = () => {
       const amount = Number(ebill.amount);
       const finalAmount = ebill.location === "office" 
         ? amount 
-        : Math.round(amount * (1 - DISCOUNT / 100));
+        : Math.round(amount * (1 - Localcharge / 100));
 
       const newRef = push(ref(db, "electricity"));
       await set(newRef, {
@@ -69,9 +69,9 @@ const Page = () => {
   };
 
   const handleDelete = async (itemKey) => {
-    if (!confirm("Are you sure you want to delete this entry?")) return;
     try {
       await remove(ref(db, `electricity/${itemKey}`));
+      console.log(itemKey)
     } catch (err) {
       console.error("Delete error:", err);
       alert("Failed to delete entry");
@@ -142,8 +142,8 @@ const Page = () => {
                   onChange={(e) => setEbill({ ...ebill, location: e.target.value })}
                   className="w-full border border-gray-300 p-3 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none"
                 >
-                  <option value="office">🏢 Office (No Discount)</option>
-                  <option value="local">🏪 Local (-10% Discount)</option>
+                  <option value="office">🏢 Office (No Charge)</option>
+                  <option value="local">🏪 Local (-10% Localcharge)</option>
                 </select>
               </div>
 
@@ -198,6 +198,7 @@ const Page = () => {
               ) : (
                 <div className="space-y-3">
                   {ebillFetch.map((item) => {
+                    
                     const isOffice = item.location === "office";
                     return (
                       <div
@@ -218,7 +219,7 @@ const Page = () => {
                           <div className="flex items-center gap-2">
                             <span className="text-xs text-gray-500">{item.date}</span>
                             <button
-                              onClick={() => handleDelete(item.key)}
+                              onClick={() => handleDelete(item.id)}
                               className="p-1.5 hover:bg-red-50 rounded-lg transition-colors"
                               title="Delete entry"
                             >
