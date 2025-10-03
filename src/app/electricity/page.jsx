@@ -143,7 +143,7 @@ const Page = () => {
                   className="w-full border border-gray-300 p-3 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none"
                 >
                   <option value="office">🏢 Office (No Charge)</option>
-                  <option value="local">🏪 Local (-10% Localcharge)</option>
+                  <option value="local">🏪 Local (-10)</option>
                 </select>
               </div>
 
