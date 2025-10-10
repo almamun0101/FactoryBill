@@ -202,7 +202,7 @@ const Page = () => {
                     const isOffice = item.location === "office";
                     return (
                       <div
-                        key={item.key}
+                        key={item.id}
                         className="border border-gray-200 rounded-xl p-4 hover:border-blue-300 hover:bg-blue-50/30 transition-all"
                       >
                         <div className="flex justify-between items-start mb-3">
