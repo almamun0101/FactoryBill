@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import { Activity, Plus, ChevronRight, ArrowLeft, X } from "lucide-react";
 
-// Example dynamic electricity rate
 const ELECTRICITY_RATE = 7.5; // BDT per kWh
 
 export default function MeterTracker() {
@@ -12,27 +11,9 @@ export default function MeterTracker() {
   ]);
 
   const [readings, setReadings] = useState([
-    {
-      id: "r1",
-      machineId: "m1",
-      date: "2024-09-15",
-      meter: 15420,
-      usage: 850,
-    },
-    {
-      id: "r2",
-      machineId: "m1",
-      date: "2024-10-15",
-      meter: 16270,
-      usage: 850,
-    },
-    {
-      id: "r3",
-      machineId: "m2",
-      date: "2024-09-20",
-      meter: 22000,
-      usage: 1100,
-    },
+    { id: "r1", machineId: "m1", date: "2024-09-15", meter: 15420, usage: 850 },
+    { id: "r2", machineId: "m1", date: "2024-10-15", meter: 16270, usage: 850 },
+    { id: "r3", machineId: "m2", date: "2024-09-20", meter: 22000, usage: 1100 },
   ]);
 
   const [showAddMachine, setShowAddMachine] = useState(false);
@@ -77,56 +58,62 @@ export default function MeterTracker() {
   // -------------------- Dashboard View --------------------
   if (!showDetail) {
     return (
-      <div className="min-h-screen ml-80 bg-gray-50 pb-20">
-        <div className="bg-white border-b border-gray-200 sticky top-0 z-10 px-4 py-4 flex items-center justify-between">
+      <div className="min-h-screen bg-gray-50 pb-20 md:ml-80">
+        {/* Header */}
+        <div className="bg-white border-b border-gray-200 sticky top-0 z-10 px-3 sm:px-4 py-3 sm:py-4 flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-bold text-gray-900">Machine Tracker</h1>
-            <p className="text-sm text-gray-500">{currentDate}</p>
+            <h1 className="text-lg sm:text-xl font-bold text-gray-900">
+              Machine Tracker
+            </h1>
+            <p className="text-xs sm:text-sm text-gray-500">{currentDate}</p>
           </div>
-          <Activity className="h-8 w-8 text-blue-600" />
+          <Activity className="h-6 w-6 sm:h-8 sm:w-8 text-blue-600" />
         </div>
 
-        <div className="px-4 py-6 space-y-4">
+        {/* Body */}
+        <div className="px-3 sm:px-4 py-5 space-y-4">
           {/* Stats Card */}
-          <div className="bg-white border border-gray-200 rounded-lg p-5 flex justify-between items-center">
+          <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-5 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
             <div>
-              <h2 className="text-sm text-gray-600">Total Machines</h2>
-              <p className="text-3xl font-bold text-gray-900">
+              <h2 className="text-xs sm:text-sm text-gray-600">Total Machines</h2>
+              <p className="text-2xl sm:text-3xl font-bold text-gray-900">
                 {machines.length}
               </p>
             </div>
             <button
               onClick={() => setShowAddMachine(true)}
-              className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+              className="flex items-center justify-center gap-2 px-3 py-2 sm:px-4 sm:py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm sm:text-base"
             >
-              <Plus size={18} /> Add Machine
+              <Plus size={16} className="sm:hidden" />
+              <Plus size={18} className="hidden sm:inline" />
+              Add Machine
             </button>
           </div>
 
           {/* Machine Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
             {machines.map((machine) => {
               const stats = getMachineStats(machine.id);
               return (
                 <div
                   key={machine.id}
                   onClick={() => setShowDetail(machine.id)}
-                  className="bg-white border border-gray-200 rounded-xl p-5 hover:shadow-md cursor-pointer transition"
+                  className="bg-white border border-gray-200 rounded-xl p-4 sm:p-5 hover:shadow-md cursor-pointer transition"
                 >
                   <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-lg font-bold text-gray-900">
+                    <h3 className="text-base sm:text-lg font-bold text-gray-900">
                       {machine.name}
                     </h3>
                     <ChevronRight className="h-4 w-4 text-gray-400" />
                   </div>
-                  <p className="text-sm text-gray-500 mb-1">
+                  <p className="text-xs sm:text-sm text-gray-500 mb-1">
                     Model: {machine.model}
                   </p>
-                  <p className="text-sm text-gray-500 mb-2">
+                  <p className="text-xs sm:text-sm text-gray-500 mb-2">
                     Size: {machine.size}
                   </p>
 
-                  <div className="text-sm mt-3">
+                  <div className="text-xs sm:text-sm mt-3 space-y-1">
                     <div className="flex justify-between text-gray-700">
                       <span>Last Month Usage:</span>
                       <span className="font-semibold">
@@ -153,9 +140,11 @@ export default function MeterTracker() {
               className="fixed inset-0 bg-black/40 z-40"
               onClick={() => setShowAddMachine(false)}
             />
-            <div className="fixed inset-x-0 bottom-0 bg-white rounded-t-2xl shadow-xl z-50 max-h-[90vh]">
+            <div className="fixed inset-x-0 bottom-0 bg-white rounded-t-2xl shadow-xl z-50 max-h-[90vh] sm:max-w-md sm:mx-auto sm:rounded-lg overflow-y-auto">
               <div className="flex justify-between items-center p-4 border-b">
-                <h3 className="text-lg font-semibold">Add Machine</h3>
+                <h3 className="text-base sm:text-lg font-semibold">
+                  Add Machine
+                </h3>
                 <button
                   onClick={() => setShowAddMachine(false)}
                   className="p-2 hover:bg-gray-100 rounded-lg"
@@ -164,7 +153,7 @@ export default function MeterTracker() {
                 </button>
               </div>
 
-              <div className="p-4 space-y-4">
+              <div className="p-4 space-y-3 sm:space-y-4">
                 <input
                   type="text"
                   placeholder="Machine Name"
@@ -172,7 +161,7 @@ export default function MeterTracker() {
                   onChange={(e) =>
                     setNewMachine({ ...newMachine, name: e.target.value })
                   }
-                  className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none"
+                  className="w-full border rounded-lg px-3 sm:px-4 py-2 sm:py-3 focus:ring-2 focus:ring-blue-500 outline-none text-sm sm:text-base"
                 />
                 <input
                   type="text"
@@ -181,7 +170,7 @@ export default function MeterTracker() {
                   onChange={(e) =>
                     setNewMachine({ ...newMachine, model: e.target.value })
                   }
-                  className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none"
+                  className="w-full border rounded-lg px-3 sm:px-4 py-2 sm:py-3 focus:ring-2 focus:ring-blue-500 outline-none text-sm sm:text-base"
                 />
                 <input
                   type="text"
@@ -190,20 +179,20 @@ export default function MeterTracker() {
                   onChange={(e) =>
                     setNewMachine({ ...newMachine, size: e.target.value })
                   }
-                  className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none"
+                  className="w-full border rounded-lg px-3 sm:px-4 py-2 sm:py-3 focus:ring-2 focus:ring-blue-500 outline-none text-sm sm:text-base"
                 />
               </div>
 
               <div className="p-4 border-t space-y-2">
                 <button
                   onClick={addMachine}
-                  className="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700"
+                  className="w-full py-2 sm:py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 text-sm sm:text-base"
                 >
                   Add Machine
                 </button>
                 <button
                   onClick={() => setShowAddMachine(false)}
-                  className="w-full py-3 border border-gray-300 rounded-lg hover:bg-gray-50"
+                  className="w-full py-2 sm:py-3 border border-gray-300 rounded-lg hover:bg-gray-50 text-sm sm:text-base"
                 >
                   Cancel
                 </button>
@@ -222,48 +211,48 @@ export default function MeterTracker() {
     .sort((a, b) => new Date(b.date) - new Date(a.date));
 
   return (
-    <div className="min-h-screen ml-80 bg-gray-50 p-6">
+    <div className="min-h-screen bg-gray-50 p-4 sm:p-6 md:ml-80">
       <button
         onClick={() => setShowDetail(null)}
-        className="flex items-center gap-2 mb-4 text-blue-600 hover:underline"
+        className="flex items-center gap-2 mb-4 text-blue-600 hover:underline text-sm sm:text-base"
       >
-        <ArrowLeft size={18} /> Back
+        <ArrowLeft size={16} className="sm:size-[18px]" /> Back
       </button>
 
-      <div className="bg-white border border-gray-200 rounded-lg p-5 mb-5">
-        <h2 className="text-lg font-bold text-gray-900 mb-1">
+      <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-5 mb-5">
+        <h2 className="text-base sm:text-lg font-bold text-gray-900 mb-1">
           {selectedMachine.name}
         </h2>
-        <p className="text-sm text-gray-500">
+        <p className="text-xs sm:text-sm text-gray-500">
           Model: {selectedMachine.model} | Size: {selectedMachine.size}
         </p>
       </div>
 
       <div className="space-y-3">
         {machineReadings.length === 0 ? (
-          <p className="text-gray-500 text-center py-10">
+          <p className="text-gray-500 text-center py-10 text-sm">
             No readings available yet.
           </p>
         ) : (
           machineReadings.map((r) => (
             <div
               key={r.id}
-              className="bg-white border border-gray-200 rounded-lg p-4"
+              className="bg-white border border-gray-200 rounded-lg p-4 text-sm sm:text-base"
             >
               <div className="flex justify-between mb-1">
-                <p className="text-sm text-gray-600">
+                <p className="text-gray-600">
                   {new Date(r.date).toLocaleDateString("en-US", {
                     month: "short",
                     day: "numeric",
                     year: "numeric",
                   })}
                 </p>
-                <p className="text-sm font-semibold text-gray-900">
+                <p className="font-semibold text-gray-900">
                   {r.meter.toLocaleString()} meter
                 </p>
               </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-500">Used:</span>
+              <div className="flex justify-between text-gray-700">
+                <span>Used:</span>
                 <span className="text-blue-600 font-semibold">
                   {r.usage} kWh (৳{(r.usage * ELECTRICITY_RATE).toFixed(2)})
                 </span>
