@@ -19,7 +19,9 @@ export default function BottomNav() {
     { icon: Zap, label: "Electricity", route: "/electricity" },
     { icon: Activity, label: "Machine", route: "/machine" },
     { icon: BarChart3, label: "Monthly", route: "/monthly" },
-    { icon: User, label: "Profile", route: "/profile" },
+    { icon: User, label: "Profile", route: "/profile" },  
+    { icon: User, label: "Bill", route: "/bill" },
+    
   ];
 
   return (

@@ -36,6 +36,7 @@ const HomePage = () => {
     { icon: Activity, label: "Machine", route: "/machine" },
     { icon: BarChart3, label: "Monthly", route: "/monthly" },
     { icon: User, label: "Profile", route: "/profile" },
+    
   ];
 
   // Quick stats data
