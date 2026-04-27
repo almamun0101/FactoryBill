@@ -1,4 +1,4 @@
-// File: C:\Users\almam\Downloads\files\factory-billing\factory-billing\src\app\layout.tsx
+// File: C:\Users\almam\Downloads\factory-billing-v3\fb2\src\app\layout.jsx
 import * as entry from '../../../src/app/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

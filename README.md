@@ -1,84 +1,102 @@
-# FactoryBill — Industrial Energy Manager
+# FactoryBill v2 — Industrial Energy Manager
 
-A full-stack Next.js 14 app with Firebase Realtime Database for factory electricity billing management.
+A **Next.js 14** app (JSX, fully commented) with Firebase Realtime Database.
 
-## 🚀 Setup
+## 🚀 Quick Start
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000)
+Open http://localhost:3000
 
-## 📁 File Structure
+> **Firebase setup required** — Enable Email/Password Auth + Realtime Database in your Firebase Console.
+> Set database rules so each user can only access their own data (see below).
+
+---
+
+## 📁 Project Structure
 
 ```
 src/
 ├── app/
-│   ├── login/page.tsx              # Auth page (login + register)
+│   ├── login/page.jsx              # Login + Register + Guest login
 │   ├── dashboard/
-│   │   ├── layout.tsx              # Protected dashboard layout w/ sidebar
-│   │   ├── machines/page.tsx       # Machine billing per month
-│   │   ├── electricity/page.tsx    # Electricity recharges
-│   │   ├── calculation/page.tsx    # Final calculation summary
-│   │   ├── settings/page.tsx       # Machines, pricing, deductions
-│   │   └── profile/page.tsx        # User profile
-│   ├── layout.tsx                  # Root layout (providers)
-│   └── globals.css                 # Global styles
+│   │   ├── layout.jsx              # Auth guard + sidebar + mobile nav
+│   │   ├── machines/page.jsx       # Machine billing (month accordion)
+│   │   ├── electricity/page.jsx    # Electricity recharges + deductions
+│   │   ├── calculation/page.jsx    # Combined monthly summary
+│   │   ├── settings/page.jsx       # Machines, rates, deductions config
+│   │   └── profile/page.jsx        # User profile editor
+│   ├── layout.jsx                  # Root layout (all providers)
+│   ├── page.jsx                    # Root redirect
+│   └── globals.css                 # Design system (CSS variables, light theme)
+├── components/
+│   └── Sidebar.jsx                 # Desktop sidebar + mobile bottom nav
 ├── context/
-│   ├── AuthContext.tsx             # Firebase auth context
-│   └── SettingsContext.tsx         # Settings with realtime DB sync
-├── lib/
-│   ├── firebase.ts                 # Firebase config
-│   └── db.ts                       # All DB read/write helpers
-├── types/index.ts                  # TypeScript types
-└── components/
-    └── Sidebar.tsx                 # Navigation sidebar
+│   ├── AuthContext.jsx             # Firebase auth (login/register/guest)
+│   ├── SettingsContext.jsx         # Machine/price config with DB sync
+│   └── LangContext.jsx             # English / Bangla language switching
+└── lib/
+    ├── firebase.js                 # Firebase app initialization
+    ├── db.js                       # All Realtime DB read/write helpers
+    └── i18n.js                     # All UI strings in EN + BN
 ```
+
+---
 
 ## ✨ Features
 
-### Machine Billing Page
-- Monthly accordion cards (latest first)
-- Per-machine cards with: name, model, total cost
-- **Radio toggle**: Total Unit mode vs Peak/Off-Peak mode
-- Total Unit mode: enter meter reading → auto minus previous/default unit → net units × rate
-- Peak/Off-Peak mode: peak kWh × peak rate + off-peak kWh × off-peak rate, shown separately
-- Previous unit input (defaults to machine default unit from settings)
-- Net unit calculation displayed with each machine
-- Save button → stored in Firebase Realtime Database
+### 🔐 Authentication
+- Email + Password login and registration
+- **Guest login** (Firebase Anonymous Auth) — no account needed
+- Language toggle: **English / বাংলা** on every screen
 
-### Electricity Page
-- Add recharge modal: date (today default), amount, source (Local/Office)
-- Local recharges have surcharge; Office = free
-- Month cards showing all recharges for that month
-- Deduction breakdown: VAT, demand charge, meter charge
-- Net meter balance shown per month
+### 🔧 Machines Page
+- Last 12 months as accordion cards (latest open by default)
+- Per-machine cards: name, model, cost display
+- **Total Unit mode**: enter meter reading → minus previous/default → net × rate
+- **Peak/Off-Peak mode**: separate inputs, separate rates, separate cost breakdown
+- Configurable previous/default unit per machine
+- Save button → Firebase Realtime DB
 
-### Calculation Page
-- Combines both pages: net meter balance − total machine cost
-- Per-machine breakdown table
-- Remaining balance or deficit highlighted in green/red
-- All-time grand totals
+### ⚡ Electricity Page
+- Add recharge modal: date, amount, source (Local with surcharge / Office free)
+- Month accordion cards showing all entries
+- **Deduction breakdown**: local surcharge, VAT, demand charge, meter charge
+- Net meter balance prominently shown
 
-### Settings Page
-- Add/remove machines with name, model, default unit
-- Set electricity rates: total rate, peak rate, off-peak rate
-- Set deductions: VAT %, local surcharge %, demand charge, meter charge
-- All saved to Firebase, synced in real-time
+### 📊 Calculation Page
+- Combines electricity + machines per month
+- Net meter balance − total machine cost = remaining / deficit
+- Color-coded green (surplus) / red (deficit)
+- Grand totals across all time
 
-### Profile Page
-- Display name + factory name editor
-- Email (read-only from Firebase Auth)
+### ⚙️ Settings Page
+- Add/remove/edit machines (name, model, default unit)
+- Electricity rates: total, peak, off-peak (৳/kWh)
+- Deductions: VAT%, local surcharge%, demand charge, meter charge
+- All saved to Firebase and synced in real-time
 
-## 🔧 Firebase Setup
+### 📱 Mobile Responsive
+- Desktop: fixed left sidebar
+- Mobile: sidebar hidden, bottom tab bar shown
+- All cards and grids adapt to small screens
 
-Enable in Firebase Console:
-1. **Authentication** → Email/Password sign-in
-2. **Realtime Database** → Create database
+---
 
-**Database Rules (for development):**
+## 🔥 Firebase Setup
+
+### 1. Enable Authentication
+Firebase Console → Authentication → Sign-in method → Enable:
+- **Email/Password**
+- **Anonymous** (for guest login)
+
+### 2. Create Realtime Database
+Firebase Console → Realtime Database → Create database (choose your region)
+
+### 3. Set Security Rules
 ```json
 {
   "rules": {
@@ -91,3 +109,22 @@ Enable in Firebase Console:
   }
 }
 ```
+
+### 4. Update databaseURL
+In `src/lib/firebase.js`, update the `databaseURL` if your region is not `us-central1`:
+```
+https://factory-db-e6bcf-default-rtdb.firebaseio.com        (US)
+https://factory-db-e6bcf-default-rtdb.europe-west1.firebaseio.com  (EU)
+```
+
+---
+
+## 🎨 Design System
+
+All design tokens are CSS variables in `globals.css`:
+- `--brand` — primary blue
+- `--bg-card` — white card background
+- `--text-primary/secondary/muted` — text hierarchy
+- `--green/amber/red/violet` — semantic colors
+
+Fonts: **Nunito** (UI) + **Noto Sans Bengali** (Bangla) + **JetBrains Mono** (numbers)
