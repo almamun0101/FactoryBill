@@ -1,0 +1,87 @@
+# ─── Dependencies ────────────────────────────────────────────────────────────
+node_modules/
+.pnp
+.pnp.js
+
+# ─── Next.js Build Output ────────────────────────────────────────────────────
+.next/
+out/
+build/
+dist/
+
+# ─── Environment Variables (NEVER commit these) ──────────────────────────────
+.env
+.env.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.production
+.env.production.local
+
+# ─── Firebase ────────────────────────────────────────────────────────────────
+.firebase/
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+database-debug.log
+
+# ─── OS Files ────────────────────────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ─── Editor / IDE ────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.history/
+
+# ─── Logs ────────────────────────────────────────────────────────────────────
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ─── Cache ───────────────────────────────────────────────────────────────────
+.cache/
+.eslintcache
+.stylelintcache
+*.tsbuildinfo
+.npm/
+
+# ─── Test Coverage ───────────────────────────────────────────────────────────
+coverage/
+.nyc_output/
+
+# ─── Package Manager Locks (keep only one — remove the ones you don't use) ───
+# If you use npm  → keep package-lock.json, ignore the rest
+# If you use yarn → keep yarn.lock, ignore the rest
+# If you use pnpm → keep pnpm-lock.yaml, ignore the rest
+yarn.lock
+pnpm-lock.yaml
+# package-lock.json   ← uncomment this line if you use yarn or pnpm
+
+# ─── Vercel / Netlify / Hosting ──────────────────────────────────────────────
+.vercel/
+.netlify/
+
+# ─── Misc ────────────────────────────────────────────────────────────────────
+*.zip
+*.tar.gz
+*.rar
+*.7z
