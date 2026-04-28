@@ -1,4 +1,4 @@
-// File: C:\Users\almam\Downloads\factory-billing-v3\fb2\src\app\dashboard\machines\page.jsx
+// File: C:\Users\almam\Downloads\factory-billing-v3-clean\factory-billing\src\app\dashboard\machines\page.jsx
 import * as entry from '../../../../../src/app/dashboard/machines/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
